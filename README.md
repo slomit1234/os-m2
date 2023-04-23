@@ -65,5 +65,4 @@ in this part, we have been asked to build 2 programs:
                       [-i] for ignoring the case in comparing process.
    command (must) - ./cmp [src file] [target file] [-v] [-i]
    
-   
-   
+  example #1 - source = a.txt with content "aba", target = d.txt (doesnt exists) -v = true, -f = true.
