@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-void handle_sigint(int sig) {
+void handle_sigint(int sig) { //will execute this function instead of killing the parent process
     printf("\n");
 }
 
@@ -14,36 +14,35 @@ int main() {
     pid_t pid;
     int status;
     
-    signal(SIGINT, handle_sigint);
+    signal(SIGINT, handle_sigint); //to not exit when user Cntrl+C  and only will exit the current shell but not the parent process 
     
     while (1) {
-        printf("> ");
-        fgets(command, sizeof(command), stdin);
-        if (command[0] == '\n') {
-            continue;
-        }
-        command[strcspn(command, "\n")] = 0; // remove trailing newline
-        
+        printf("hello: ");
+        fgets(command, 1024, stdin);
+
+        command[strlen(command) - 1] = '\0'; // replace \n with \0
+        //to exit when the user enters exit
         if (strcmp(command, "exit") == 0) {
-            printf("Exiting...\n");
+            printf("Goodbye...\n");
             exit(0);
         }
         
         pid = fork();
-        if (pid < 0) {
+		//execute the user command
+        if (pid < 0) { // if fork fails
             perror("fork failed");
             exit(EXIT_FAILURE);
-        } else if (pid == 0) {
-            execl("/bin/sh", "sh", "-c", command, (char*)NULL);
+        } else if (pid == 0) { // if fork sucessed , and we are in the child process
+            execl("/bin/sh", "sh", "-c", command, (char*)NULL); // excute command
             perror("exec failed");
             exit(EXIT_FAILURE);
-        } else {
+        } else { // fork successed, and we are at the parent proccess
             do {
-                waitpid(pid, &status, WUNTRACED);
+                waitpid(pid, &status, WUNTRACED); //wait child proccess to end
             } while (!WIFEXITED(status) && !WIFSIGNALED(status));
         }
         if (feof(stdin)) {
-            printf("Exiting...\n");
+            printf("Goodbye!\n");
             exit(0);
         }
     }
