@@ -125,8 +125,10 @@ in this part, we have been asked to build a shell program:
 stshell - seppurt all of the following:
 1. run CMD tools
 2. support Ctrl+c to exit (without killing the shell program)
+3. support running part A and part B
 3. support > or >> or | (at list for 2).
 4. stop the shell program using exit 
-   
+  
 #examples from terminal#
 ![image](https://user-images.githubusercontent.com/42152443/233834073-a1a42933-88b4-425b-a293-498a8c956754.png)
+![image](https://user-images.githubusercontent.com/42152443/235358162-4bbebf8d-9996-48b1-b6c5-54b54f391b7e.png)
